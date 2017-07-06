@@ -40,6 +40,7 @@ namespace XDocumentExamples
         /// </summary>
         public static void SaveAsXmlFile(XDocument xDocument, string title)
         {
+            Directory.CreateDirectory(SaveDirectory);
             var now = DateTime.UtcNow.ToString("yyyyMMdd-HHmmss");
             var path = $@"{SaveDirectory}/{now}_{title}.xml";
             xDocument.Save(path);
