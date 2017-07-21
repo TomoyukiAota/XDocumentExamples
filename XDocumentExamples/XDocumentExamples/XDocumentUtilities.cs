@@ -29,8 +29,6 @@ namespace XDocumentExamples
                 xDocument.Save(writer);
                 Console.WriteLine(writer);
             }
-
-            Console.WriteLine("---------------------------------");
         }
 
         private static readonly string SaveDirectory = @"../../../GeneratedXmlFiles";
