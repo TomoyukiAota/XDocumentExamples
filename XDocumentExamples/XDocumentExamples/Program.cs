@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -8,15 +9,18 @@ namespace XDocumentExamples
     {
         static void Main(string[] args)
         {
-            DisplayLineAndCall(ReadXDocument);
-            DisplayLineAndCall(GenerationXDocument);
-            DisplayLineAndCall(ManipulateXDocument);
-        }
+            var actions = new List<Action>
+            {
+                ReadXDocument,
+                GenerateXDocument,
+                ManipulateXDocument
+            };
 
-        private static void DisplayLineAndCall(Action action)
-        {
-            Console.WriteLine("---------------------------------");
-            action();
+            foreach (var action in actions)
+            {
+                Console.WriteLine("---------------------------------");
+                action();
+            }
         }
 
         private static void ReadXDocument()
@@ -38,7 +42,7 @@ namespace XDocumentExamples
                                 </ROOT>";
 
             var xDocument = XDocument.Parse(xml);
-            XDocumentUtilities.DisplayInConsole(xDocument, title: "XDocument to be read");
+            XDocumentUtilities.DisplayInConsole(xDocument, title: nameof(ReadXDocument));
 
             var c = xDocument.Element("ROOT").Elements("B").Where(b => !b.IsEmpty).Elements("C");
 
@@ -62,11 +66,11 @@ namespace XDocumentExamples
 
             root.Add(a, b);
             xDocument.Add(root);
-            XDocumentUtilities.DisplayInConsole(xDocument, title: "Add Element");
-            XDocumentUtilities.SaveAsXmlFile(xDocument, title: "Add Element");
+            XDocumentUtilities.DisplayInConsole(xDocument, title: nameof(ManipulateXDocument));
+            XDocumentUtilities.SaveAsXmlFile(xDocument, title: nameof(ManipulateXDocument));
         }
 
-        private static void GenerationXDocument()
+        private static void GenerateXDocument()
         {
             var xDocument = new XDocument(
                 new XDeclaration(version: "1.0", encoding: "utf-8", standalone: null),
@@ -77,8 +81,8 @@ namespace XDocumentExamples
                         new XCData("This is CData section not recognized as XML document.")
                     )));
 
-            XDocumentUtilities.DisplayInConsole(xDocument, title: "XDocument-Generation");
-            XDocumentUtilities.SaveAsXmlFile(xDocument, title: "XDocument-Generation");
+            XDocumentUtilities.DisplayInConsole(xDocument, title: nameof(GenerateXDocument));
+            XDocumentUtilities.SaveAsXmlFile(xDocument, title: nameof(GenerateXDocument));
         }
     }
 }
